@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="search_hint">ابحث عن محطة بالاسم…</string>
+    <string name="tab_popular">الشائعة</string>
+    <string name="tab_favorites">المفضلة</string>
+    <string name="loading">جارٍ التحميل…</string>
+    <string name="no_results">لم يتم العثور على شيء.</string>
+    <string name="no_favorites">ليست لديك محطات مفضلة بعد.\nاضغط على النجمة بجانب المحطة لإضافتها.</string>
+    <string name="network_error">تعذّر تحميل قائمة المحطات.\nتحقق من اتصالك بالإنترنت واضغط للمحاولة مرة أخرى.</string>
+    <string name="nothing_playing">اختر محطة من القائمة</string>
+    <string name="status_connecting">جارٍ الاتصال… %1$d ث</string>
+    <string name="status_reconnecting">جارٍ إعادة الاتصال… %1$d ث</string>
+    <string name="status_buffering">جارٍ التخزين المؤقت…</string>
+    <string name="status_buffering_progress">التخزين المؤقت %1$d%% · %2$d ك.ب</string>
+    <string name="status_playing">قيد التشغيل</string>
+    <string name="status_stopped">متوقف</string>
+    <string name="status_error">تعذّر تشغيل هذه المحطة</string>
+    <string name="stop">إيقاف</string>
+    <string name="clear">مسح</string>
+    <string name="play_stop">تشغيل / إيقاف</string>
+    <string name="favorite">مفضلة</string>
+    <string name="notif_channel">تشغيل الراديو</string>
+    <string name="fav_added">تمت الإضافة إلى المفضلة</string>
+    <string name="fav_removed">تمت الإزالة من المفضلة</string>
+    <string name="settings">الإعدادات</string>
+    <string name="settings_language">اللغة</string>
+    <string name="settings_buffer">مدة التخزين المؤقت</string>
+    <string name="settings_buffer_desc">عدد ثواني الصوت التي يتم تنزيلها قبل بدء التشغيل. التخزين المؤقت الأطول يعني انقطاعات أقل مع الاتصال الضعيف.</string>
+    <string name="seconds">%1$d ث</string>
+    <string name="back">رجوع</string>
+    <string name="status_error_opus">تعذّر تشغيل هذه المحطة – تنسيق Opus غير مدعوم على هذا الجهاز</string>
+    <string name="not_supported_opus">غير مدعومة على هذا الجهاز (Opus)</string>
+    <string name="custom_station">محطتك</string>
+    <string name="add_station">إضافة محطة</string>
+    <string name="edit_station">تعديل المحطة</string>
+    <string name="station_name">اسم المحطة</string>
+    <string name="stream_url">عنوان البث</string>
+    <string name="save">حفظ</string>
+    <string name="delete">حذف</string>
+    <string name="station_added">تمت إضافة المحطة إلى المفضلة</string>
+    <string name="invalid_url">أدخل عنوان بث صالحًا، مثل http://example.com:8000/stream</string>
+    <string name="confirm_delete">هل تريد حذف هذه المحطة؟</string>
+</resources>

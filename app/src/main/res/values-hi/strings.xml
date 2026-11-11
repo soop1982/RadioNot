@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="search_hint">नाम से स्टेशन खोजें…</string>
+    <string name="tab_popular">लोकप्रिय</string>
+    <string name="tab_favorites">पसंदीदा</string>
+    <string name="loading">लोड हो रहा है…</string>
+    <string name="no_results">कुछ नहीं मिला।</string>
+    <string name="no_favorites">अभी तक आपका कोई पसंदीदा स्टेशन नहीं है।\nजोड़ने के लिए स्टेशन के पास वाले तारे पर टैप करें।</string>
+    <string name="network_error">स्टेशन सूची लोड नहीं हो सकी।\nअपना इंटरनेट कनेक्शन जाँचें और फिर से कोशिश करने के लिए टैप करें।</string>
+    <string name="nothing_playing">सूची से कोई स्टेशन चुनें</string>
+    <string name="status_connecting">कनेक्ट हो रहा है… %1$d से.</string>
+    <string name="status_reconnecting">फिर से कनेक्ट हो रहा है… %1$d से.</string>
+    <string name="status_buffering">बफ़र हो रहा है…</string>
+    <string name="status_buffering_progress">बफ़र %1$d%% · %2$d KB</string>
+    <string name="status_playing">चल रहा है</string>
+    <string name="status_stopped">रोका गया</string>
+    <string name="status_error">यह स्टेशन नहीं चल सकता</string>
+    <string name="stop">रोकें</string>
+    <string name="clear">साफ़ करें</string>
+    <string name="play_stop">चलाएँ / रोकें</string>
+    <string name="favorite">पसंदीदा</string>
+    <string name="notif_channel">रेडियो प्लेबैक</string>
+    <string name="fav_added">पसंदीदा में जोड़ा गया</string>
+    <string name="fav_removed">पसंदीदा से हटाया गया</string>
+    <string name="settings">सेटिंग्स</string>
+    <string name="settings_language">भाषा</string>
+    <string name="settings_buffer">बफ़र अवधि</string>
+    <string name="settings_buffer_desc">चलाना शुरू करने से पहले कितने सेकंड का ऑडियो डाउनलोड करना है। लंबा बफ़र कमज़ोर कनेक्शन पर कम रुकावटें देता है।</string>
+    <string name="seconds">%1$d से.</string>
+    <string name="back">वापस</string>
+    <string name="status_error_opus">यह स्टेशन नहीं चल सकता – इस डिवाइस पर Opus फ़ॉर्मैट समर्थित नहीं है</string>
+    <string name="not_supported_opus">इस डिवाइस पर समर्थित नहीं (Opus)</string>
+    <string name="custom_station">आपका स्टेशन</string>
+    <string name="add_station">स्टेशन जोड़ें</string>
+    <string name="edit_station">स्टेशन संपादित करें</string>
+    <string name="station_name">स्टेशन का नाम</string>
+    <string name="stream_url">स्ट्रीम पता</string>
+    <string name="save">सहेजें</string>
+    <string name="delete">हटाएँ</string>
+    <string name="station_added">स्टेशन पसंदीदा में जोड़ा गया</string>
+    <string name="invalid_url">मान्य स्ट्रीम पता दर्ज करें, जैसे http://example.com:8000/stream</string>
+    <string name="confirm_delete">यह स्टेशन हटाएँ?</string>
+</resources>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="search_hint">按名称搜索电台…</string>
+    <string name="tab_popular">热门</string>
+    <string name="tab_favorites">收藏</string>
+    <string name="loading">正在加载…</string>
+    <string name="no_results">未找到结果。</string>
+    <string name="no_favorites">你还没有收藏的电台。\n点击电台旁边的星标即可收藏。</string>
+    <string name="network_error">无法加载电台列表。\n请检查网络连接，然后点击重试。</string>
+    <string name="nothing_playing">从列表中选择一个电台</string>
+    <string name="status_connecting">正在连接… %1$d 秒</string>
+    <string name="status_reconnecting">正在重新连接… %1$d 秒</string>
+    <string name="status_buffering">正在缓冲…</string>
+    <string name="status_buffering_progress">正在缓冲 %1$d%% · %2$d KB</string>
+    <string name="status_playing">正在播放</string>
+    <string name="status_stopped">已停止</string>
+    <string name="status_error">无法播放此电台</string>
+    <string name="stop">停止</string>
+    <string name="clear">清除</string>
+    <string name="play_stop">播放 / 停止</string>
+    <string name="favorite">收藏</string>
+    <string name="notif_channel">电台播放</string>
+    <string name="fav_added">已添加到收藏</string>
+    <string name="fav_removed">已从收藏中移除</string>
+    <string name="settings">设置</string>
+    <string name="settings_language">语言</string>
+    <string name="settings_buffer">缓冲时长</string>
+    <string name="settings_buffer_desc">开始播放前预先下载的音频秒数。缓冲越长，网络较差时中断越少。</string>
+    <string name="seconds">%1$d 秒</string>
+    <string name="back">返回</string>
+    <string name="status_error_opus">无法播放此电台：此设备不支持 Opus 格式</string>
+    <string name="not_supported_opus">此设备不支持（Opus）</string>
+    <string name="custom_station">你的电台</string>
+    <string name="add_station">添加电台</string>
+    <string name="edit_station">编辑电台</string>
+    <string name="station_name">电台名称</string>
+    <string name="stream_url">流地址</string>
+    <string name="save">保存</string>
+    <string name="delete">删除</string>
+    <string name="station_added">已将电台添加到收藏</string>
+    <string name="invalid_url">请输入有效的流地址，例如 http://example.com:8000/stream</string>
+    <string name="confirm_delete">要删除此电台吗？</string>
+</resources>

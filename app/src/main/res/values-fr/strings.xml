@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="search_hint">Rechercher une station par nom…</string>
+    <string name="tab_popular">Populaires</string>
+    <string name="tab_favorites">Favoris</string>
+    <string name="loading">Chargement…</string>
+    <string name="no_results">Aucun résultat.</string>
+    <string name="no_favorites">Vous n\'avez pas encore de stations favorites.\nTouchez l\'étoile à côté d\'une station pour l\'ajouter.</string>
+    <string name="network_error">Impossible de charger la liste des stations.\nVérifiez votre connexion Internet et touchez pour réessayer.</string>
+    <string name="nothing_playing">Choisissez une station dans la liste</string>
+    <string name="status_connecting">Connexion… %1$d s</string>
+    <string name="status_reconnecting">Reconnexion… %1$d s</string>
+    <string name="status_buffering">Mise en mémoire tampon…</string>
+    <string name="status_buffering_progress">Mémoire tampon %1$d%% · %2$d Ko</string>
+    <string name="status_playing">Lecture</string>
+    <string name="status_stopped">Arrêté</string>
+    <string name="status_error">Impossible de lire cette station</string>
+    <string name="stop">Arrêter</string>
+    <string name="clear">Effacer</string>
+    <string name="play_stop">Lire / arrêter</string>
+    <string name="favorite">Favori</string>
+    <string name="notif_channel">Lecture radio</string>
+    <string name="fav_added">Ajouté aux favoris</string>
+    <string name="fav_removed">Retiré des favoris</string>
+    <string name="settings">Paramètres</string>
+    <string name="settings_language">Langue</string>
+    <string name="settings_buffer">Durée de la mémoire tampon</string>
+    <string name="settings_buffer_desc">Nombre de secondes d\'audio à télécharger avant le début de la lecture. Une mémoire tampon plus longue réduit les coupures sur une connexion faible.</string>
+    <string name="seconds">%1$d s</string>
+    <string name="back">Retour</string>
+    <string name="status_error_opus">Impossible de lire cette station – le format Opus n\'est pas pris en charge sur cet appareil</string>
+    <string name="not_supported_opus">Non pris en charge sur cet appareil (Opus)</string>
+    <string name="custom_station">Votre station</string>
+    <string name="add_station">Ajouter une station</string>
+    <string name="edit_station">Modifier la station</string>
+    <string name="station_name">Nom de la station</string>
+    <string name="stream_url">Adresse du flux</string>
+    <string name="save">Enregistrer</string>
+    <string name="delete">Supprimer</string>
+    <string name="station_added">Station ajoutée aux favoris</string>
+    <string name="invalid_url">Saisissez une adresse de flux valide, par ex. http://example.com:8000/stream</string>
+    <string name="confirm_delete">Supprimer cette station ?</string>
+</resources>

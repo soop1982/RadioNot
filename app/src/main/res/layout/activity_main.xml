@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    android:orientation="vertical">
+
+    <!-- Nagłówek: wyszukiwarka -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:paddingTop="12dp">
+
+        <EditText
+            android:id="@+id/search"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/search_bg"
+            android:hint="@string/search_hint"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:maxLines="1"
+            android:paddingLeft="14dp"
+            android:paddingRight="14dp"
+            android:textColor="@color/text"
+            android:textColorHint="@color/text_dim"
+            android:textSize="17sp" />
+
+        <ImageButton
+            android:id="@+id/clear"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginLeft="6dp"
+            android:background="@drawable/tab_bg"
+            android:contentDescription="@string/clear"
+            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            android:visibility="gone" />
+
+        <ImageButton
+            android:id="@+id/add_station"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginLeft="6dp"
+            android:background="@drawable/tab_bg"
+            android:contentDescription="@string/add_station"
+            android:src="@drawable/ic_add" />
+
+        <ImageButton
+            android:id="@+id/settings"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginLeft="6dp"
+            android:background="@drawable/tab_bg"
+            android:contentDescription="@string/settings"
+            android:src="@drawable/ic_settings" />
+    </LinearLayout>
+
+    <!-- Zakładki -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/tab_popular"
+            style="@style/TabButton"
+            android:layout_marginRight="4dp"
+            android:text="@string/tab_popular" />
+
+        <TextView
+            android:id="@+id/tab_favorites"
+            style="@style/TabButton"
+            android:layout_marginLeft="4dp"
+            android:text="@string/tab_favorites" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider" />
+
+    <!-- Lista stacji -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <ListView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:cacheColorHint="@android:color/transparent"
+            android:choiceMode="singleChoice"
+            android:divider="@color/divider"
+            android:dividerHeight="1dp"
+            android:fastScrollEnabled="true"
+            android:listSelector="@android:color/transparent" />
+
+        <LinearLayout
+            android:id="@+id/empty_box"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="32dp"
+            android:visibility="gone">
+
+            <ProgressBar
+                android:id="@+id/progress"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="12dp" />
+
+            <TextView
+                android:id="@+id/empty_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/text_dim"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <!-- Postęp łączenia / buforowania -->
+    <ProgressBar
+        android:id="@+id/buffer_progress"
+        style="@android:style/Widget.Holo.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:minHeight="4dp"
+        android:maxHeight="4dp"
+        android:max="100"
+        android:progressDrawable="@drawable/progress_accent"
+        android:visibility="gone" />
+
+    <!-- Pasek odtwarzacza -->
+    <LinearLayout
+        android:id="@+id/player_bar"
+        android:layout_width="match_parent"
+        android:layout_height="84dp"
+        android:background="@color/surface"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp">
+
+        <ImageView
+            android:id="@+id/player_logo"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:scaleType="fitCenter" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/player_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@string/nothing_playing"
+                android:textColor="@color/text"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/player_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:ellipsize="marquee"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:singleLine="true"
+                android:textColor="@color/accent"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/player_btn"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:background="@drawable/round_btn"
+            android:contentDescription="@string/play_stop"
+            android:src="@android:drawable/ic_media_play" />
+    </LinearLayout>
+</LinearLayout>

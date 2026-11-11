@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Proste Radio</string>
+    <string name="search_hint">Search stations by name…</string>
+    <string name="tab_popular">Popular</string>
+    <string name="tab_favorites">Favorites</string>
+    <string name="loading">Loading…</string>
+    <string name="no_results">Nothing found.</string>
+    <string name="no_favorites">You have no favorite stations yet.\nTap the star next to a station to add it.</string>
+    <string name="network_error">Could not load the station list.\nCheck your internet connection and tap to try again.</string>
+    <string name="nothing_playing">Choose a station from the list</string>
+    <string name="status_connecting">Connecting… %1$d s</string>
+    <string name="status_reconnecting">Reconnecting… %1$d s</string>
+    <string name="status_buffering">Buffering…</string>
+    <string name="status_buffering_progress">Buffering %1$d%% · %2$d kB</string>
+    <string name="status_playing">Playing</string>
+    <string name="status_stopped">Stopped</string>
+    <string name="status_error">Cannot play this station</string>
+    <string name="stop">Stop</string>
+    <string name="clear">Clear</string>
+    <string name="play_stop">Play / stop</string>
+    <string name="favorite">Favorite</string>
+    <string name="notif_channel">Radio playback</string>
+    <string name="fav_added">Added to favorites</string>
+    <string name="fav_removed">Removed from favorites</string>
+    <string name="settings">Settings</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_buffer">Buffer length</string>
+    <string name="settings_buffer_desc">How many seconds of audio to download before playback starts. A longer buffer means fewer interruptions on a weak connection.</string>
+    <string name="seconds">%1$d s</string>
+    <string name="back">Back</string>
+    <string name="status_error_opus">Cannot play this station – the Opus format is not supported on this device</string>
+    <string name="not_supported_opus">Not supported on this device (Opus)</string>
+    <string name="custom_station">Your station</string>
+    <string name="add_station">Add station</string>
+    <string name="edit_station">Edit station</string>
+    <string name="station_name">Station name</string>
+    <string name="stream_url">Stream address</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+    <string name="station_added">Station added to favorites</string>
+    <string name="invalid_url">Enter a valid stream address, e.g. http://example.com:8000/stream</string>
+    <string name="confirm_delete">Delete this station?</string>
+</resources>

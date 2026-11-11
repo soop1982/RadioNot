@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="search_hint">İstasyon adıyla ara…</string>
+    <string name="tab_popular">Popüler</string>
+    <string name="tab_favorites">Favoriler</string>
+    <string name="loading">Yükleniyor…</string>
+    <string name="no_results">Hiçbir şey bulunamadı.</string>
+    <string name="no_favorites">Henüz favori istasyonunuz yok.\nEklemek için istasyonun yanındaki yıldıza dokunun.</string>
+    <string name="network_error">İstasyon listesi yüklenemedi.\nİnternet bağlantınızı kontrol edin ve tekrar denemek için dokunun.</string>
+    <string name="nothing_playing">Listeden bir istasyon seçin</string>
+    <string name="status_connecting">Bağlanıyor… %1$d sn</string>
+    <string name="status_reconnecting">Yeniden bağlanıyor… %1$d sn</string>
+    <string name="status_buffering">Arabelleğe alınıyor…</string>
+    <string name="status_buffering_progress">Arabellek %%%1$d · %2$d kB</string>
+    <string name="status_playing">Çalıyor</string>
+    <string name="status_stopped">Durduruldu</string>
+    <string name="status_error">Bu istasyon çalınamıyor</string>
+    <string name="stop">Durdur</string>
+    <string name="clear">Temizle</string>
+    <string name="play_stop">Oynat / durdur</string>
+    <string name="favorite">Favori</string>
+    <string name="notif_channel">Radyo çalma</string>
+    <string name="fav_added">Favorilere eklendi</string>
+    <string name="fav_removed">Favorilerden kaldırıldı</string>
+    <string name="settings">Ayarlar</string>
+    <string name="settings_language">Dil</string>
+    <string name="settings_buffer">Arabellek süresi</string>
+    <string name="settings_buffer_desc">Çalmaya başlamadan önce kaç saniyelik ses indirileceği. Daha uzun arabellek, zayıf bağlantıda daha az kesinti demektir.</string>
+    <string name="seconds">%1$d sn</string>
+    <string name="back">Geri</string>
+    <string name="status_error_opus">Bu istasyon çalınamıyor – Opus biçimi bu cihazda desteklenmiyor</string>
+    <string name="not_supported_opus">Bu cihazda desteklenmiyor (Opus)</string>
+    <string name="custom_station">Sizin istasyonunuz</string>
+    <string name="add_station">İstasyon ekle</string>
+    <string name="edit_station">İstasyonu düzenle</string>
+    <string name="station_name">İstasyon adı</string>
+    <string name="stream_url">Yayın adresi</string>
+    <string name="save">Kaydet</string>
+    <string name="delete">Sil</string>
+    <string name="station_added">İstasyon favorilere eklendi</string>
+    <string name="invalid_url">Geçerli bir yayın adresi girin, ör. http://example.com:8000/stream</string>
+    <string name="confirm_delete">Bu istasyon silinsin mi?</string>
+</resources>

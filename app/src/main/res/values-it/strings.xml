@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="search_hint">Cerca stazioni per nome…</string>
+    <string name="tab_popular">Popolari</string>
+    <string name="tab_favorites">Preferite</string>
+    <string name="loading">Caricamento…</string>
+    <string name="no_results">Nessun risultato.</string>
+    <string name="no_favorites">Non hai ancora stazioni preferite.\nTocca la stella accanto a una stazione per aggiungerla.</string>
+    <string name="network_error">Impossibile caricare l\'elenco delle stazioni.\nControlla la connessione a Internet e tocca per riprovare.</string>
+    <string name="nothing_playing">Scegli una stazione dall\'elenco</string>
+    <string name="status_connecting">Connessione… %1$d s</string>
+    <string name="status_reconnecting">Riconnessione… %1$d s</string>
+    <string name="status_buffering">Buffering…</string>
+    <string name="status_buffering_progress">Buffering %1$d%% · %2$d kB</string>
+    <string name="status_playing">In riproduzione</string>
+    <string name="status_stopped">Fermato</string>
+    <string name="status_error">Impossibile riprodurre questa stazione</string>
+    <string name="stop">Stop</string>
+    <string name="clear">Cancella</string>
+    <string name="play_stop">Riproduci / ferma</string>
+    <string name="favorite">Preferita</string>
+    <string name="notif_channel">Riproduzione radio</string>
+    <string name="fav_added">Aggiunta alle preferite</string>
+    <string name="fav_removed">Rimossa dalle preferite</string>
+    <string name="settings">Impostazioni</string>
+    <string name="settings_language">Lingua</string>
+    <string name="settings_buffer">Durata del buffer</string>
+    <string name="settings_buffer_desc">Quanti secondi di audio scaricare prima di iniziare la riproduzione. Un buffer più lungo significa meno interruzioni con una connessione debole.</string>
+    <string name="seconds">%1$d s</string>
+    <string name="back">Indietro</string>
+    <string name="status_error_opus">Impossibile riprodurre questa stazione: il formato Opus non è supportato su questo dispositivo</string>
+    <string name="not_supported_opus">Non supportata su questo dispositivo (Opus)</string>
+    <string name="custom_station">La tua stazione</string>
+    <string name="add_station">Aggiungi stazione</string>
+    <string name="edit_station">Modifica stazione</string>
+    <string name="station_name">Nome della stazione</string>
+    <string name="stream_url">Indirizzo dello stream</string>
+    <string name="save">Salva</string>
+    <string name="delete">Elimina</string>
+    <string name="station_added">Stazione aggiunta alle preferite</string>
+    <string name="invalid_url">Inserisci un indirizzo di stream valido, ad es. http://example.com:8000/stream</string>
+    <string name="confirm_delete">Eliminare questa stazione?</string>
+</resources>

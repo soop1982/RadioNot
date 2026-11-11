@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="search_hint">Cari stasiun berdasarkan nama…</string>
+    <string name="tab_popular">Populer</string>
+    <string name="tab_favorites">Favorit</string>
+    <string name="loading">Memuat…</string>
+    <string name="no_results">Tidak ada hasil.</string>
+    <string name="no_favorites">Anda belum punya stasiun favorit.\nKetuk bintang di samping stasiun untuk menambahkannya.</string>
+    <string name="network_error">Gagal memuat daftar stasiun.\nPeriksa koneksi internet Anda lalu ketuk untuk mencoba lagi.</string>
+    <string name="nothing_playing">Pilih stasiun dari daftar</string>
+    <string name="status_connecting">Menghubungkan… %1$d dtk</string>
+    <string name="status_reconnecting">Menghubungkan ulang… %1$d dtk</string>
+    <string name="status_buffering">Buffering…</string>
+    <string name="status_buffering_progress">Buffering %1$d%% · %2$d kB</string>
+    <string name="status_playing">Diputar</string>
+    <string name="status_stopped">Dihentikan</string>
+    <string name="status_error">Stasiun ini tidak dapat diputar</string>
+    <string name="stop">Berhenti</string>
+    <string name="clear">Hapus</string>
+    <string name="play_stop">Putar / hentikan</string>
+    <string name="favorite">Favorit</string>
+    <string name="notif_channel">Pemutaran radio</string>
+    <string name="fav_added">Ditambahkan ke favorit</string>
+    <string name="fav_removed">Dihapus dari favorit</string>
+    <string name="settings">Pengaturan</string>
+    <string name="settings_language">Bahasa</string>
+    <string name="settings_buffer">Panjang buffer</string>
+    <string name="settings_buffer_desc">Berapa detik audio yang diunduh sebelum pemutaran dimulai. Buffer lebih panjang berarti lebih sedikit jeda pada koneksi lemah.</string>
+    <string name="seconds">%1$d dtk</string>
+    <string name="back">Kembali</string>
+    <string name="status_error_opus">Stasiun ini tidak dapat diputar – format Opus tidak didukung di perangkat ini</string>
+    <string name="not_supported_opus">Tidak didukung di perangkat ini (Opus)</string>
+    <string name="custom_station">Stasiun Anda</string>
+    <string name="add_station">Tambah stasiun</string>
+    <string name="edit_station">Edit stasiun</string>
+    <string name="station_name">Nama stasiun</string>
+    <string name="stream_url">Alamat stream</string>
+    <string name="save">Simpan</string>
+    <string name="delete">Hapus</string>
+    <string name="station_added">Stasiun ditambahkan ke favorit</string>
+    <string name="invalid_url">Masukkan alamat stream yang valid, mis. http://example.com:8000/stream</string>
+    <string name="confirm_delete">Hapus stasiun ini?</string>
+</resources>

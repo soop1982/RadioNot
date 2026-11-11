@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Ikona aplikacji. Dla Androida 4.4 zostanie automatycznie zamieniona na PNG przy budowaniu. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <path android:fillColor="#FFFF8A3D"
+        android:pathData="M24,24 m-22,0 a22,22 0 1,0 44,0 a22,22 0 1,0 -44,0" />
+    <path android:fillColor="#FF15171C"
+        android:pathData="M12,18 L36,18 Q38,18 38,20 L38,36 Q38,38 36,38 L12,38 Q10,38 10,36 L10,20 Q10,18 12,18 Z" />
+    <path android:fillColor="#FF15171C"
+        android:pathData="M15.4,16.6 L31.6,9.3 L32.4,11.1 L16.2,18.4 Z" />
+    <path android:fillColor="#FFFF8A3D"
+        android:pathData="M29,28 m-6,0 a6,6 0 1,0 12,0 a6,6 0 1,0 -12,0" />
+    <path android:fillColor="#FF15171C"
+        android:pathData="M29,28 m-2.5,0 a2.5,2.5 0 1,0 5,0 a2.5,2.5 0 1,0 -5,0" />
+    <path android:fillColor="#FFFF8A3D"
+        android:pathData="M14,23 L20,23 L20,25 L14,25 Z M14,27 L20,27 L20,29 L14,29 Z M14,31 L20,31 L20,33 L14,33 Z" />
+</vector>

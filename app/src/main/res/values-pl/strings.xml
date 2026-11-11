@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="search_hint">Szukaj stacji po nazwie…</string>
+    <string name="tab_popular">Popularne</string>
+    <string name="tab_favorites">Ulubione</string>
+    <string name="loading">Wczytywanie…</string>
+    <string name="no_results">Nic nie znaleziono.</string>
+    <string name="no_favorites">Nie masz jeszcze ulubionych stacji.\nDotknij gwiazdki przy stacji, aby ją dodać.</string>
+    <string name="network_error">Nie udało się pobrać listy stacji.\nSprawdź połączenie z internetem i dotknij, aby spróbować ponownie.</string>
+    <string name="nothing_playing">Wybierz stację z listy</string>
+    <string name="status_connecting">Łączenie… %1$d s</string>
+    <string name="status_reconnecting">Ponowne łączenie… %1$d s</string>
+    <string name="status_buffering">Buforowanie…</string>
+    <string name="status_buffering_progress">Buforowanie %1$d%% · %2$d kB</string>
+    <string name="status_playing">Gra</string>
+    <string name="status_stopped">Zatrzymano</string>
+    <string name="status_error">Nie można odtworzyć tej stacji</string>
+    <string name="stop">Stop</string>
+    <string name="clear">Wyczyść</string>
+    <string name="play_stop">Odtwórz / zatrzymaj</string>
+    <string name="favorite">Ulubiona</string>
+    <string name="notif_channel">Odtwarzanie radia</string>
+    <string name="fav_added">Dodano do ulubionych</string>
+    <string name="fav_removed">Usunięto z ulubionych</string>
+    <string name="settings">Ustawienia</string>
+    <string name="settings_language">Język</string>
+    <string name="settings_buffer">Czas buforowania</string>
+    <string name="settings_buffer_desc">Ile sekund dźwięku pobrać przed rozpoczęciem odtwarzania. Dłuższy bufor to mniej przerw przy słabym połączeniu.</string>
+    <string name="seconds">%1$d s</string>
+    <string name="back">Wstecz</string>
+    <string name="status_error_opus">Nie można odtworzyć tej stacji – format Opus nie jest obsługiwany na tym urządzeniu</string>
+    <string name="not_supported_opus">Nieobsługiwana na tym urządzeniu (Opus)</string>
+    <string name="custom_station">Twoja stacja</string>
+    <string name="add_station">Dodaj stację</string>
+    <string name="edit_station">Edytuj stację</string>
+    <string name="station_name">Nazwa stacji</string>
+    <string name="stream_url">Adres strumienia</string>
+    <string name="save">Zapisz</string>
+    <string name="delete">Usuń</string>
+    <string name="station_added">Dodano stację do ulubionych</string>
+    <string name="invalid_url">Wpisz poprawny adres strumienia, np. http://example.com:8000/stream</string>
+    <string name="confirm_delete">Usunąć tę stację?</string>
+</resources>

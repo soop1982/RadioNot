@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="search_hint">Sender nach Namen suchen…</string>
+    <string name="tab_popular">Beliebt</string>
+    <string name="tab_favorites">Favoriten</string>
+    <string name="loading">Wird geladen…</string>
+    <string name="no_results">Nichts gefunden.</string>
+    <string name="no_favorites">Du hast noch keine Lieblingssender.\nTippe auf den Stern neben einem Sender, um ihn hinzuzufügen.</string>
+    <string name="network_error">Die Senderliste konnte nicht geladen werden.\nPrüfe deine Internetverbindung und tippe, um es erneut zu versuchen.</string>
+    <string name="nothing_playing">Wähle einen Sender aus der Liste</string>
+    <string name="status_connecting">Verbinde… %1$d s</string>
+    <string name="status_reconnecting">Neu verbinden… %1$d s</string>
+    <string name="status_buffering">Puffern…</string>
+    <string name="status_buffering_progress">Puffern %1$d%% · %2$d kB</string>
+    <string name="status_playing">Läuft</string>
+    <string name="status_stopped">Gestoppt</string>
+    <string name="status_error">Dieser Sender kann nicht abgespielt werden</string>
+    <string name="stop">Stopp</string>
+    <string name="clear">Löschen</string>
+    <string name="play_stop">Abspielen / stoppen</string>
+    <string name="favorite">Favorit</string>
+    <string name="notif_channel">Radiowiedergabe</string>
+    <string name="fav_added">Zu Favoriten hinzugefügt</string>
+    <string name="fav_removed">Aus Favoriten entfernt</string>
+    <string name="settings">Einstellungen</string>
+    <string name="settings_language">Sprache</string>
+    <string name="settings_buffer">Pufferlänge</string>
+    <string name="settings_buffer_desc">Wie viele Sekunden Audio vor dem Start geladen werden. Ein längerer Puffer bedeutet weniger Unterbrechungen bei schwacher Verbindung.</string>
+    <string name="seconds">%1$d s</string>
+    <string name="back">Zurück</string>
+    <string name="status_error_opus">Dieser Sender kann nicht abgespielt werden – das Opus-Format wird auf diesem Gerät nicht unterstützt</string>
+    <string name="not_supported_opus">Auf diesem Gerät nicht unterstützt (Opus)</string>
+    <string name="custom_station">Eigener Sender</string>
+    <string name="add_station">Sender hinzufügen</string>
+    <string name="edit_station">Sender bearbeiten</string>
+    <string name="station_name">Sendername</string>
+    <string name="stream_url">Stream-Adresse</string>
+    <string name="save">Speichern</string>
+    <string name="delete">Löschen</string>
+    <string name="station_added">Sender zu Favoriten hinzugefügt</string>
+    <string name="invalid_url">Gib eine gültige Stream-Adresse ein, z. B. http://example.com:8000/stream</string>
+    <string name="confirm_delete">Diesen Sender löschen?</string>
+</resources>

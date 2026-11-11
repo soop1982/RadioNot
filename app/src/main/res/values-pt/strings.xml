@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="search_hint">Pesquisar rádios pelo nome…</string>
+    <string name="tab_popular">Populares</string>
+    <string name="tab_favorites">Favoritas</string>
+    <string name="loading">Carregando…</string>
+    <string name="no_results">Nada encontrado.</string>
+    <string name="no_favorites">Você ainda não tem rádios favoritas.\nToque na estrela ao lado de uma rádio para adicioná-la.</string>
+    <string name="network_error">Não foi possível carregar a lista de rádios.\nVerifique sua conexão com a internet e toque para tentar novamente.</string>
+    <string name="nothing_playing">Escolha uma rádio da lista</string>
+    <string name="status_connecting">Conectando… %1$d s</string>
+    <string name="status_reconnecting">Reconectando… %1$d s</string>
+    <string name="status_buffering">Carregando buffer…</string>
+    <string name="status_buffering_progress">Buffer %1$d%% · %2$d kB</string>
+    <string name="status_playing">Tocando</string>
+    <string name="status_stopped">Parado</string>
+    <string name="status_error">Não é possível reproduzir esta rádio</string>
+    <string name="stop">Parar</string>
+    <string name="clear">Limpar</string>
+    <string name="play_stop">Reproduzir / parar</string>
+    <string name="favorite">Favorita</string>
+    <string name="notif_channel">Reprodução de rádio</string>
+    <string name="fav_added">Adicionada às favoritas</string>
+    <string name="fav_removed">Removida das favoritas</string>
+    <string name="settings">Configurações</string>
+    <string name="settings_language">Idioma</string>
+    <string name="settings_buffer">Tamanho do buffer</string>
+    <string name="settings_buffer_desc">Quantos segundos de áudio baixar antes de começar a tocar. Um buffer maior significa menos interrupções em conexões fracas.</string>
+    <string name="seconds">%1$d s</string>
+    <string name="back">Voltar</string>
+    <string name="status_error_opus">Não é possível reproduzir esta rádio – o formato Opus não é compatível com este dispositivo</string>
+    <string name="not_supported_opus">Não compatível com este dispositivo (Opus)</string>
+    <string name="custom_station">Sua rádio</string>
+    <string name="add_station">Adicionar rádio</string>
+    <string name="edit_station">Editar rádio</string>
+    <string name="station_name">Nome da rádio</string>
+    <string name="stream_url">Endereço do stream</string>
+    <string name="save">Salvar</string>
+    <string name="delete">Excluir</string>
+    <string name="station_added">Rádio adicionada às favoritas</string>
+    <string name="invalid_url">Digite um endereço de stream válido, ex. http://example.com:8000/stream</string>
+    <string name="confirm_delete">Excluir esta rádio?</string>
+</resources>

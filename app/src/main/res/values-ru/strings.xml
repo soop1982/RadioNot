@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="search_hint">Поиск станций по названию…</string>
+    <string name="tab_popular">Популярные</string>
+    <string name="tab_favorites">Избранное</string>
+    <string name="loading">Загрузка…</string>
+    <string name="no_results">Ничего не найдено.</string>
+    <string name="no_favorites">У вас пока нет избранных станций.\nНажмите на звёздочку рядом со станцией, чтобы добавить её.</string>
+    <string name="network_error">Не удалось загрузить список станций.\nПроверьте подключение к интернету и нажмите, чтобы повторить.</string>
+    <string name="nothing_playing">Выберите станцию из списка</string>
+    <string name="status_connecting">Подключение… %1$d с</string>
+    <string name="status_reconnecting">Переподключение… %1$d с</string>
+    <string name="status_buffering">Буферизация…</string>
+    <string name="status_buffering_progress">Буферизация %1$d%% · %2$d КБ</string>
+    <string name="status_playing">Играет</string>
+    <string name="status_stopped">Остановлено</string>
+    <string name="status_error">Не удаётся воспроизвести эту станцию</string>
+    <string name="stop">Стоп</string>
+    <string name="clear">Очистить</string>
+    <string name="play_stop">Воспроизвести / остановить</string>
+    <string name="favorite">Избранное</string>
+    <string name="notif_channel">Воспроизведение радио</string>
+    <string name="fav_added">Добавлено в избранное</string>
+    <string name="fav_removed">Удалено из избранного</string>
+    <string name="settings">Настройки</string>
+    <string name="settings_language">Язык</string>
+    <string name="settings_buffer">Длина буфера</string>
+    <string name="settings_buffer_desc">Сколько секунд звука загрузить перед началом воспроизведения. Чем длиннее буфер, тем меньше перерывов при слабом соединении.</string>
+    <string name="seconds">%1$d с</string>
+    <string name="back">Назад</string>
+    <string name="status_error_opus">Не удаётся воспроизвести станцию – формат Opus не поддерживается на этом устройстве</string>
+    <string name="not_supported_opus">Не поддерживается на этом устройстве (Opus)</string>
+    <string name="custom_station">Ваша станция</string>
+    <string name="add_station">Добавить станцию</string>
+    <string name="edit_station">Изменить станцию</string>
+    <string name="station_name">Название станции</string>
+    <string name="stream_url">Адрес потока</string>
+    <string name="save">Сохранить</string>
+    <string name="delete">Удалить</string>
+    <string name="station_added">Станция добавлена в избранное</string>
+    <string name="invalid_url">Введите правильный адрес потока, например http://example.com:8000/stream</string>
+    <string name="confirm_delete">Удалить эту станцию?</string>
+</resources>

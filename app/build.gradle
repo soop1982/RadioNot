@@ -1,0 +1,99 @@
+plugins {
+    id 'com.android.application'
+}
+
+// Stały klucz podpisu zapisany jako tekst (base64), żeby nie trzeba było wgrywać osobnego
+// pliku binarnego. Przy budowaniu jest zamieniany z powrotem na plik w folderze .signing.
+def SIGNING_KEY_B64 =
+    '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'
+
+def signingKeyFile = {
+    def f = new File(rootDir, '.signing/debug.keystore')
+    if (!f.exists()) {
+        f.parentFile.mkdirs()
+        f.bytes = java.util.Base64.decoder.decode(SIGNING_KEY_B64)
+    }
+    return f
+}
+
+android {
+    namespace 'pl.prosteradio'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId 'pl.prosteradio'
+        minSdk 19          // Android 4.4 KitKat
+        targetSdk 28
+        versionCode 3
+        versionName '1.2'
+        vectorDrawables.generatedDensities = ['mdpi', 'hdpi', 'xhdpi', 'xxhdpi']
+    }
+
+    // Stały klucz podpisu. Bez niego GitHub przy każdym budowaniu tworzy nowy, losowy klucz,
+    // a Android odmawia instalacji aktualizacji podpisanej innym kluczem.
+    signingConfigs {
+        debug {
+            storeFile signingKeyFile()
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+        }
+    }
+
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+        }
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    lint {
+        abortOnError false
+        checkReleaseBuilds false
+    }
+}
+
+// Brak zewnętrznych bibliotek – tylko standardowe API Androida.

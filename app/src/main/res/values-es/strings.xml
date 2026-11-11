@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="search_hint">Buscar emisoras por nombre…</string>
+    <string name="tab_popular">Populares</string>
+    <string name="tab_favorites">Favoritas</string>
+    <string name="loading">Cargando…</string>
+    <string name="no_results">No se encontró nada.</string>
+    <string name="no_favorites">Todavía no tienes emisoras favoritas.\nToca la estrella junto a una emisora para añadirla.</string>
+    <string name="network_error">No se pudo cargar la lista de emisoras.\nComprueba tu conexión a Internet y toca para reintentar.</string>
+    <string name="nothing_playing">Elige una emisora de la lista</string>
+    <string name="status_connecting">Conectando… %1$d s</string>
+    <string name="status_reconnecting">Reconectando… %1$d s</string>
+    <string name="status_buffering">Almacenando en búfer…</string>
+    <string name="status_buffering_progress">Búfer %1$d%% · %2$d kB</string>
+    <string name="status_playing">Reproduciendo</string>
+    <string name="status_stopped">Detenido</string>
+    <string name="status_error">No se puede reproducir esta emisora</string>
+    <string name="stop">Detener</string>
+    <string name="clear">Borrar</string>
+    <string name="play_stop">Reproducir / detener</string>
+    <string name="favorite">Favorita</string>
+    <string name="notif_channel">Reproducción de radio</string>
+    <string name="fav_added">Añadida a favoritas</string>
+    <string name="fav_removed">Eliminada de favoritas</string>
+    <string name="settings">Ajustes</string>
+    <string name="settings_language">Idioma</string>
+    <string name="settings_buffer">Duración del búfer</string>
+    <string name="settings_buffer_desc">Cuántos segundos de audio descargar antes de empezar a reproducir. Un búfer más largo significa menos cortes con una conexión débil.</string>
+    <string name="seconds">%1$d s</string>
+    <string name="back">Atrás</string>
+    <string name="status_error_opus">No se puede reproducir esta emisora: el formato Opus no es compatible con este dispositivo</string>
+    <string name="not_supported_opus">No compatible con este dispositivo (Opus)</string>
+    <string name="custom_station">Tu emisora</string>
+    <string name="add_station">Añadir emisora</string>
+    <string name="edit_station">Editar emisora</string>
+    <string name="station_name">Nombre de la emisora</string>
+    <string name="stream_url">Dirección del stream</string>
+    <string name="save">Guardar</string>
+    <string name="delete">Eliminar</string>
+    <string name="station_added">Emisora añadida a favoritas</string>
+    <string name="invalid_url">Introduce una dirección de stream válida, p. ej. http://example.com:8000/stream</string>
+    <string name="confirm_delete">¿Eliminar esta emisora?</string>
+</resources>
