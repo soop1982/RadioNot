@@ -71,40 +71,110 @@ public class PodcastApi {
         }
     }
 
-    /** Uzupełnia adres kanału RSS (podcasty z rankingu go nie mają). */
-    public void resolveFeed(Podcast p) throws IOException {
+    /**
+     * Uzupełnia adres kanału RSS (podcasty z rankingu go nie mają).
+     * Katalog Apple bez podanego kraju szuka w sklepie USA, gdzie wielu polskich
+     * podcastów nie ma – dlatego najpierw pytamy w sklepie wybranego kraju.
+     */
+    public void resolveFeed(Podcast p, String country) throws IOException {
         if (p.feedUrl.length() > 0) return;
-        if (p.id.length() == 0) throw new IOException("No id");
+        if (p.id.length() == 0) throw new IOException("lookup: no id");
+        String cc = country.toLowerCase(Locale.US);
+        String[] urls = {
+                "https://itunes.apple.com/lookup?id=" + Uri.encode(p.id) + "&country=" + cc,
+                "https://itunes.apple.com/lookup?id=" + Uri.encode(p.id),
+        };
+        IOException last = null;
+        for (String u : urls) {
+            try {
+                JSONObject o = new JSONObject(new String(Http.get(ctx, u, 1024 * 1024), "UTF-8"));
+                if (fill(p, parseItunes(o.optJSONArray("results")))) return;
+            } catch (IOException e) {
+                last = e;
+            } catch (Exception e) {
+                last = new IOException(e.toString());
+            }
+        }
+        // ostatnia próba: wyszukanie po nazwie i dopasowanie po identyfikatorze lub nazwie
         try {
-            JSONObject o = new JSONObject(new String(
-                    Http.get(ctx, "https://itunes.apple.com/lookup?entity=podcast&id=" + Uri.encode(p.id),
-                            1024 * 1024), "UTF-8"));
-            List<Podcast> r = parseItunes(o.optJSONArray("results"));
-            for (Podcast x : r) {
-                if (x.feedUrl.length() > 0) {
-                    p.feedUrl = x.feedUrl;
-                    if (p.artwork.length() == 0) p.artwork = x.artwork;
-                    if (p.author.length() == 0) p.author = x.author;
-                    return;
-                }
+            List<Podcast> found = search(p.name, country);
+            for (Podcast x : found) {
+                if (x.id.equals(p.id) && fill(p, java.util.Collections.singletonList(x))) return;
+            }
+            for (Podcast x : found) {
+                if (x.name.equalsIgnoreCase(p.name) && fill(p, java.util.Collections.singletonList(x))) return;
             }
         } catch (IOException e) {
-            throw e;
-        } catch (Exception e) {
-            throw new IOException(e.toString());
+            last = e;
         }
-        throw new IOException("No feed");
+        throw new IOException("lookup: " + (last != null ? short_(last) : "no feed address"));
     }
 
-    /** Pobiera i czyta kanał RSS – bez wczytywania całego (czasem wielomegabajtowego) pliku do pamięci. */
-    public RssParser.Result episodes(Podcast p) throws IOException {
-        resolveFeed(p);
-        HttpURLConnection c = Http.open(ctx, p.feedUrl);
+    private static boolean fill(Podcast p, List<Podcast> results) {
+        for (Podcast x : results) {
+            if (x.feedUrl.length() > 0) {
+                p.feedUrl = x.feedUrl;
+                if (p.artwork.length() == 0) p.artwork = x.artwork;
+                if (p.author.length() == 0) p.author = x.author;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Pobiera i czyta kanał RSS. Próbuje kolejno: zwykłe połączenie Androida,
+     * własne połączenie (to samo, którym gra radio – z poprawionym HTTPS)
+     * i na końcu ten sam adres przez http.
+     */
+    public RssParser.Result episodes(Podcast p, String country) throws IOException {
+        resolveFeed(p, country);
+        String url = p.feedUrl.trim();
+        if (url.startsWith("feed://")) url = "http://" + url.substring(7);
+        if (url.startsWith("itpc://") || url.startsWith("pcast://")) url = "http://" + url.substring(url.indexOf("://") + 3);
+
+        IOException first;
         try {
-            InputStream in = c.getInputStream();
+            return readFeed(p, url, false);
+        } catch (IOException e) {
+            first = e;
+            CrashLog.event("feed via HttpURLConnection failed: " + e);
+        }
+        try {
+            return readFeed(p, url, true);
+        } catch (IOException e) {
+            CrashLog.event("feed via own client failed: " + e);
+        }
+        if (url.startsWith("https://")) {
+            try {
+                return readFeed(p, "http://" + url.substring(8), true);
+            } catch (IOException e) {
+                CrashLog.event("feed via http failed: " + e);
+            }
+        }
+        throw new IOException("feed: " + short_(first));
+    }
+
+    private RssParser.Result readFeed(Podcast p, String url, boolean ownClient) throws IOException {
+        HttpURLConnection c = null;
+        StreamSource.Connection sc = null;
+        try {
+            InputStream in;
+            if (ownClient) {
+                sc = StreamSource.open(url);
+                in = StreamSource.body(sc);
+            } else {
+                c = Http.open(ctx, url);
+                in = c.getInputStream();
+            }
             XmlPullParser xp = Xml.newPullParser();
             xp.setInput(in, null);
-            RssParser.Result r = RssParser.parse(xp, 300);
+            RssParser.Result r;
+            try {
+                r = RssParser.parse(xp, 300);
+            } catch (Exception e) {
+                throw new IOException("parse: " + e);
+            }
             if (r.image.length() == 0) r.image = p.bigArtwork();
             for (Episode e : r.episodes) {
                 if (e.podcastName.length() == 0) e.podcastName = p.name;
@@ -113,11 +183,20 @@ public class PodcastApi {
             return r;
         } catch (IOException e) {
             throw e;
-        } catch (Exception e) {
+        } catch (Throwable e) {
             throw new IOException(e.toString());
         } finally {
-            c.disconnect();
+            if (c != null) try { c.disconnect(); } catch (Throwable ignored) {}
+            if (sc != null) StreamSource.closeQuietly(sc.socket);
         }
+    }
+
+    /** Krótki opis błędu do pokazania na ekranie. */
+    static String short_(Throwable e) {
+        String n = e.getClass().getSimpleName();
+        String m = e.getMessage();
+        String s = m == null ? n : (n.equals("IOException") ? m : n + ": " + m);
+        return s.length() > 160 ? s.substring(0, 160) + "…" : s;
     }
 
     // ---------------------------------------------------------------- formaty odpowiedzi

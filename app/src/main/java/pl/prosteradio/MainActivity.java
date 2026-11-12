@@ -97,6 +97,7 @@ public class MainActivity extends Activity implements RadioService.Listener {
     private String episodesKey;
     private int requestId;
     private boolean lastLoadFailed;
+    private String lastError = "";
 
     private Station lastStation;
     private Episode lastEpisode;
@@ -299,14 +300,18 @@ public class MainActivity extends Activity implements RadioService.Listener {
         try {
             worker.execute(() -> {
                 T r = null;
+                String err = "";
                 try {
                     r = job.run();
                 } catch (Throwable e) {
                     CrashLog.event("load failed: " + e);
+                    err = PodcastApi.short_(e);
                 }
                 final T result = r;
+                final String error = err;
                 main.post(() -> {
                     if (id != requestId || isFinishing()) return;
+                    lastError = error;
                     done.done(result);
                 });
             });
@@ -390,7 +395,7 @@ public class MainActivity extends Activity implements RadioService.Listener {
         async(id, () -> q.length() == 0 ? api.popular() : api.search(q), r -> {
             if (r == null) {
                 lastLoadFailed = true;
-                showMessage(getString(R.string.network_error), false);
+                showMessage(withDetail(R.string.network_error), false);
             } else {
                 if (q.length() == 0) popularCache = r;
                 stationAdapter.setItems(r);
@@ -403,6 +408,12 @@ public class MainActivity extends Activity implements RadioService.Listener {
         list.setSelection(0);
         if (count == 0) showMessage(emptyMsg, false);
         else emptyBox.setVisibility(View.GONE);
+    }
+
+    /** Komunikat o błędzie z krótką przyczyną techniczną (pomaga zdiagnozować problem). */
+    private String withDetail(int msgRes) {
+        String m = getString(msgRes);
+        return lastError.length() > 0 ? m + "\n\n(" + lastError + ")" : m;
     }
 
     private void showMessage(String msg, boolean loading) {
@@ -528,7 +539,7 @@ public class MainActivity extends Activity implements RadioService.Listener {
             async(id, () -> podcastApi.search(q, cc), r -> {
                 if (r == null) {
                     lastLoadFailed = true;
-                    showMessage(getString(R.string.podcast_top_error), false);
+                    showMessage(withDetail(R.string.podcast_top_error), false);
                     return;
                 }
                 List<PodcastAdapter.Row> rows = new ArrayList<>();
@@ -552,7 +563,7 @@ public class MainActivity extends Activity implements RadioService.Listener {
             if (r == null) {
                 lastLoadFailed = true;
                 podcastAdapter.setRows(homeRows(subs, null, true));
-                if (subs.isEmpty()) showMessage(getString(R.string.podcast_top_error), false);
+                if (subs.isEmpty()) showMessage(withDetail(R.string.podcast_top_error), false);
             } else {
                 topCache = r;
                 topCountry = cc;
@@ -608,10 +619,11 @@ public class MainActivity extends Activity implements RadioService.Listener {
         }
         episodeAdapter.setItems(null);
         showMessage(getString(R.string.loading), true);
-        async(id, () -> podcastApi.episodes(p), r -> {
+        final String cc = AppSettings.country(this);
+        async(id, () -> podcastApi.episodes(p, cc), r -> {
             if (r == null) {
                 lastLoadFailed = true;
-                showMessage(getString(R.string.podcast_error), false);
+                showMessage(withDetail(R.string.podcast_error), false);
                 return;
             }
             if (store.isSubscribed(p)) store.update(p); // zapisz znaleziony adres kanału

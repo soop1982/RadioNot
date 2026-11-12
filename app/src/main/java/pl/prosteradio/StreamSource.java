@@ -57,6 +57,8 @@ public final class StreamSource {
         public InputStream in;
         public String contentType = "";
         public int metaInt;
+        public long contentLength = -1;   // -1 = nieznana (strumień radiowy)
+        public boolean chunked;
     }
 
     private StreamSource() {}
@@ -150,6 +152,11 @@ public final class StreamSource {
         c.in = in;
         c.contentType = ct;
         c.metaInt = h.containsKey("icy-metaint") ? parseInt(h.get("icy-metaint"), 0) : 0;
+        if (h.containsKey("content-length")) {
+            try { c.contentLength = Long.parseLong(h.get("content-length").trim()); } catch (Exception ignored) {}
+        }
+        String te = h.get("transfer-encoding");
+        c.chunked = te != null && te.toLowerCase(Locale.US).contains("chunked");
         s.setSoTimeout(30000);
         return c;
     }
@@ -238,6 +245,72 @@ public final class StreamSource {
             } catch (Exception e2) {
                 try { return new String(b, 0, len, "ISO-8859-1"); } catch (Exception e3) { return ""; }
             }
+        }
+    }
+
+    /** Strumień treści zwykłej odpowiedzi HTTP (kończy się po Content-Length, rozpakowuje „chunked”). */
+    public static InputStream body(final Connection c) {
+        if (c.chunked) return new ChunkedInputStream(c.in);
+        if (c.contentLength < 0) return c.in;
+        return new InputStream() {
+            long left = c.contentLength;
+
+            @Override
+            public int read() throws IOException {
+                if (left <= 0) return -1;
+                int b = c.in.read();
+                if (b >= 0) left--;
+                return b;
+            }
+
+            @Override
+            public int read(byte[] b, int off, int len) throws IOException {
+                if (left <= 0) return -1;
+                int n = c.in.read(b, off, (int) Math.min(len, left));
+                if (n > 0) left -= n;
+                return n;
+            }
+        };
+    }
+
+    private static final class ChunkedInputStream extends InputStream {
+        private final InputStream in;
+        private long left;
+        private boolean done;
+
+        ChunkedInputStream(InputStream in) { this.in = in; }
+
+        private boolean next() throws IOException {
+            if (done) return false;
+            if (left > 0) return true;
+            String line = readLine(in);
+            if (line != null && line.length() == 0) line = readLine(in); // CRLF po poprzednim kawałku
+            if (line == null) { done = true; return false; }
+            int semi = line.indexOf(';');
+            if (semi >= 0) line = line.substring(0, semi);
+            try {
+                left = Long.parseLong(line.trim(), 16);
+            } catch (NumberFormatException e) {
+                throw new IOException("Bad chunk: " + line);
+            }
+            if (left == 0) { done = true; return false; }
+            return true;
+        }
+
+        @Override
+        public int read() throws IOException {
+            byte[] b = new byte[1];
+            int n = read(b, 0, 1);
+            return n < 0 ? -1 : b[0] & 0xff;
+        }
+
+        @Override
+        public int read(byte[] b, int off, int len) throws IOException {
+            if (!next()) return -1;
+            int n = in.read(b, off, (int) Math.min(len, left));
+            if (n < 0) { done = true; return -1; }
+            left -= n;
+            return n;
         }
     }
 
