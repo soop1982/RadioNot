@@ -33,10 +33,10 @@ public class RadioApi {
         this.ctx = ctx.getApplicationContext();
     }
 
-    /** Najpopularniejsze polskie stacje. */
+    /** Najpopularniejsze stacje w wybranym kraju (domyślnie Polska). */
     public List<Station> popular() throws IOException {
-        return query("/json/stations/search?countrycode=PL&hidebroken=true"
-                + "&order=clickcount&reverse=true&limit=200");
+        return query("/json/stations/search?countrycode=" + Uri.encode(AppSettings.country(ctx))
+                + "&hidebroken=true&order=clickcount&reverse=true&limit=200");
     }
 
     /** Wyszukiwanie po nazwie (cały świat), od najpopularniejszych. */

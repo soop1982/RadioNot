@@ -11,6 +11,7 @@ public final class AppSettings {
     private static final String PREFS = "settings";
     private static final String KEY_LANG = "language";
     private static final String KEY_BUFFER = "buffer_seconds";
+    private static final String KEY_COUNTRY = "country";
 
     /** 15 języków. Kod „in” to indonezyjski (tak nazywa go Android). */
     public static final String[] LANG_CODES = {
@@ -59,6 +60,21 @@ public final class AppSettings {
         int s = bufferSeconds(ctx);
         for (int i = 0; i < BUFFER_CHOICES.length; i++) if (BUFFER_CHOICES[i] == s) return i;
         return 2;
+    }
+
+    /** Kraj (kod ISO, np. „PL”) dla listy popularnych stacji i rankingu podcastów. */
+    public static String country(Context ctx) {
+        return prefs(ctx).getString(KEY_COUNTRY, "PL");
+    }
+
+    public static void setCountry(Context ctx, String code) {
+        prefs(ctx).edit().putString(KEY_COUNTRY, code).apply();
+    }
+
+    /** Nazwa kraju w języku aplikacji. */
+    public static String countryName(Context ctx, String code) {
+        String n = new Locale("", code).getDisplayCountry(locale(language(ctx)));
+        return n == null || n.length() == 0 ? code : n;
     }
 
     public static Locale locale(String code) {

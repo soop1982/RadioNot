@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Odtwarzacz na cały ekran. Układ (pionowy/poziomy) przestawiany w kodzie przy obrocie ekranu. -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/full_player"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    android:clickable="true"
+    android:visibility="gone">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- górny pasek -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/full_collapse"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:background="@drawable/tab_bg"
+                android:contentDescription="@string/collapse"
+                android:src="@drawable/ic_collapse" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/now_playing"
+                android:textColor="@color/text_dim"
+                android:textSize="14sp" />
+
+            <ImageButton
+                android:id="@+id/full_star"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/favorite"
+                android:src="@android:drawable/btn_star_big_off" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/full_body"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingBottom="24dp"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp">
+
+            <ImageView
+                android:id="@+id/full_logo"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:scaleType="fitCenter" />
+
+            <LinearLayout
+                android:id="@+id/full_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingTop="20dp">
+
+                <TextView
+                    android:id="@+id/full_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxLines="3"
+                    android:textColor="@color/text"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/full_sub"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxLines="2"
+                    android:textColor="@color/text_dim"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/full_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxLines="4"
+                    android:minHeight="24dp"
+                    android:textColor="@color/accent"
+                    android:textSize="19sp" />
+
+                <ProgressBar
+                    android:id="@+id/full_buffer"
+                    style="@android:style/Widget.Holo.ProgressBar.Horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="4dp"
+                    android:layout_marginTop="10dp"
+                    android:max="100"
+                    android:maxHeight="4dp"
+                    android:minHeight="4dp"
+                    android:progressDrawable="@drawable/progress_accent"
+                    android:visibility="invisible" />
+
+                <!-- przewijanie (tylko podcasty) -->
+                <LinearLayout
+                    android:id="@+id/full_seek_box"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <SeekBar
+                        android:id="@+id/full_seek"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:max="1000"
+                        android:maxHeight="6dp"
+                        android:minHeight="6dp"
+                        android:progressDrawable="@drawable/progress_accent" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp">
+
+                        <TextView
+                            android:id="@+id/full_pos"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/text_dim"
+                            android:textSize="13sp" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:id="@+id/full_dur"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/text_dim"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- sterowanie -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/full_back"
+                        android:layout_width="72dp"
+                        android:layout_height="56dp"
+                        android:layout_marginRight="24dp"
+                        android:background="@drawable/tab_bg"
+                        android:contentDescription="@string/rewind"
+                        android:text="−15"
+                        android:textColor="@color/text"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <ImageButton
+                        android:id="@+id/full_play"
+                        android:layout_width="84dp"
+                        android:layout_height="84dp"
+                        android:background="@drawable/round_btn"
+                        android:contentDescription="@string/play_stop"
+                        android:src="@android:drawable/ic_media_play" />
+
+                    <Button
+                        android:id="@+id/full_fwd"
+                        android:layout_width="72dp"
+                        android:layout_height="56dp"
+                        android:layout_marginLeft="24dp"
+                        android:background="@drawable/tab_bg"
+                        android:contentDescription="@string/forward"
+                        android:text="+30"
+                        android:textColor="@color/text"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

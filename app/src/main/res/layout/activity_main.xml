@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg"
+    android:background="@color/bg">
+
+<LinearLayout
+    android:id="@+id/main_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical">
 
     <!-- Nagłówek: wyszukiwarka -->
     <LinearLayout
+        android:id="@+id/search_row"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -60,6 +66,69 @@
             android:src="@drawable/ic_settings" />
     </LinearLayout>
 
+    <!-- Nagłówek otwartego podcastu (zamiast wyszukiwarki) -->
+    <LinearLayout
+        android:id="@+id/podcast_row"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="4dp"
+        android:paddingRight="8dp"
+        android:paddingTop="12dp"
+        android:visibility="gone">
+
+        <ImageButton
+            android:id="@+id/podcast_back"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/tab_bg"
+            android:contentDescription="@string/back"
+            android:src="@drawable/ic_back" />
+
+        <ImageView
+            android:id="@+id/podcast_art"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginLeft="4dp"
+            android:scaleType="fitCenter" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/podcast_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textColor="@color/text"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/podcast_author"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textColor="@color/text_dim"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/podcast_sub"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/subscribe"
+            android:src="@android:drawable/btn_star_big_off" />
+    </LinearLayout>
+
     <!-- Zakładki -->
     <LinearLayout
         android:layout_width="match_parent"
@@ -77,7 +146,14 @@
             android:id="@+id/tab_favorites"
             style="@style/TabButton"
             android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
             android:text="@string/tab_favorites" />
+
+        <TextView
+            android:id="@+id/tab_podcasts"
+            style="@style/TabButton"
+            android:layout_marginLeft="4dp"
+            android:text="@string/tab_podcasts" />
     </LinearLayout>
 
     <View
@@ -85,7 +161,7 @@
         android:layout_height="1dp"
         android:background="@color/divider" />
 
-    <!-- Lista stacji -->
+    <!-- Lista -->
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -127,7 +203,7 @@
         </LinearLayout>
     </FrameLayout>
 
-    <!-- Postęp łączenia / buforowania -->
+    <!-- Postęp łączenia / buforowania / odcinka -->
     <ProgressBar
         android:id="@+id/buffer_progress"
         style="@android:style/Widget.Holo.ProgressBar.Horizontal"
@@ -139,12 +215,13 @@
         android:progressDrawable="@drawable/progress_accent"
         android:visibility="gone" />
 
-    <!-- Pasek odtwarzacza -->
+    <!-- Pasek odtwarzacza – dotknięcie otwiera widok pełnoekranowy -->
     <LinearLayout
         android:id="@+id/player_bar"
         android:layout_width="match_parent"
         android:layout_height="84dp"
-        android:background="@color/surface"
+        android:background="@drawable/bar_bg"
+        android:clickable="true"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingLeft="12dp"
@@ -181,8 +258,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:ellipsize="marquee"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
                 android:marqueeRepeatLimit="marquee_forever"
                 android:singleLine="true"
                 android:textColor="@color/accent"
@@ -198,3 +273,6 @@
             android:src="@android:drawable/ic_media_play" />
     </LinearLayout>
 </LinearLayout>
+
+    <include layout="@layout/player_full" />
+</FrameLayout>

@@ -27,6 +27,31 @@ public final class StreamSource {
         void onTitle(String title);
     }
 
+    /**
+     * Uchwyt do przerwania połączenia z innego wątku.
+     *
+     * Na Androidzie 4.4 zamknięcie gniazda HTTPS z innego wątku niż ten, który z niego
+     * czyta, potrafi wywrócić całą aplikację (błąd w bibliotece SSL systemu). Dlatego
+     * abort() tylko „odcina” zwykłe połączenie TCP pod spodem – czytający wątek dostaje
+     * wtedy normalny koniec danych i sam wszystko zamyka.
+     */
+    public static final class Holder {
+        private volatile Socket raw;
+        private volatile boolean aborted;
+
+        public boolean isAborted() { return aborted; }
+
+        public void abort() {
+            aborted = true;
+            shutdown(raw);
+        }
+
+        void setRaw(Socket s) {
+            raw = s;
+            if (aborted) shutdown(s);
+        }
+    }
+
     public static final class Connection {
         public Socket socket;
         public InputStream in;
@@ -37,10 +62,15 @@ public final class StreamSource {
     private StreamSource() {}
 
     public static Connection open(String url) throws IOException {
-        return open(url, 0);
+        return open(url, new Holder(), 0);
     }
 
-    private static Connection open(String url, int depth) throws IOException {
+    public static Connection open(String url, Holder holder) throws IOException {
+        return open(url, holder, 0);
+    }
+
+    private static Connection open(String url, Holder holder, int depth) throws IOException {
+        if (holder.aborted) throw new IOException("Aborted");
         if (depth > 6) throw new IOException("Too many redirects");
         URL u = new URL(url);
         String proto = u.getProtocol().toLowerCase(Locale.US);
@@ -51,14 +81,21 @@ public final class StreamSource {
         String path = u.getFile();
         if (path == null || path.length() == 0) path = "/";
 
+        if (host == null || host.length() == 0) throw new IOException("No host in URL: " + url);
         Socket s = new Socket();
+        holder.setRaw(s);
         try {
             s.connect(new InetSocketAddress(host, port), 12000);
+            if (holder.aborted) throw new IOException("Aborted");
+            holder.setRaw(s); // po połączeniu shutdown już zadziała
             s.setSoTimeout(20000);
             if (https) s = Tls.wrap(s, host, port);
         } catch (IOException e) {
             closeQuietly(s);
             throw e;
+        } catch (RuntimeException e) {
+            closeQuietly(s);
+            throw new IOException("Connect failed: " + e);
         }
 
         boolean defPort = u.getPort() <= 0 || u.getPort() == (https ? 443 : 80);
@@ -86,7 +123,7 @@ public final class StreamSource {
 
         if (code >= 300 && code < 400 && h.containsKey("location")) {
             closeQuietly(s);
-            return open(new URL(u, h.get("location")).toString(), depth + 1);
+            return open(new URL(u, h.get("location")).toString(), holder, depth + 1);
         }
         if (code != 200) {
             closeQuietly(s);
@@ -105,7 +142,7 @@ public final class StreamSource {
             closeQuietly(s);
             String next = firstUrlIn(new String(body, "UTF-8"));
             if (next == null) throw new IOException("Empty playlist");
-            return open(next, depth + 1);
+            return open(next, holder, depth + 1);
         }
 
         Connection c = new Connection();
@@ -241,7 +278,15 @@ public final class StreamSource {
         try { return Integer.parseInt(s.trim()); } catch (Exception e) { return def; }
     }
 
+    /** Zamyka gniazdo. Wywoływać tylko z wątku, który z niego korzysta. */
     public static void closeQuietly(Socket s) {
-        if (s != null) try { s.close(); } catch (IOException ignored) {}
+        if (s != null) try { s.close(); } catch (Throwable ignored) {}
+    }
+
+    /** Bezpieczne „odcięcie” zwykłego gniazda TCP z dowolnego wątku. */
+    public static void shutdown(Socket s) {
+        if (s == null) return;
+        try { s.shutdownInput(); } catch (Throwable ignored) {}
+        try { s.shutdownOutput(); } catch (Throwable ignored) {}
     }
 }

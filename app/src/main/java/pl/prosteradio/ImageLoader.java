@@ -31,21 +31,31 @@ public class ImageLoader {
     private final int sizePx;
 
     public ImageLoader(Context ctx, int sizePx) {
+        this(ctx, sizePx, "logos", 8);
+    }
+
+    /**
+     * @param folder   podkatalog pamięci podręcznej na dysku (osobny dla dużych okładek)
+     * @param memShare jaką część pamięci aplikacji (1/memShare) może zająć podręczny zbiór obrazków
+     */
+    public ImageLoader(Context ctx, int sizePx, String folder, int memShare) {
         this.ctx = ctx.getApplicationContext();
         this.sizePx = sizePx;
-        int maxKb = (int) (Runtime.getRuntime().maxMemory() / 1024 / 8);
+        int maxKb = (int) (Runtime.getRuntime().maxMemory() / 1024 / memShare);
         mem = new LruCache<String, Bitmap>(maxKb) {
             @Override
             protected int sizeOf(String key, Bitmap value) {
-                return value.getRowBytes() * value.getHeight() / 1024;
+                return Math.max(1, value.getRowBytes() * value.getHeight() / 1024);
             }
         };
-        dir = new File(ctx.getCacheDir(), "logos");
+        dir = new File(ctx.getCacheDir(), folder);
         //noinspection ResultOfMethodCallIgnored
         dir.mkdirs();
     }
 
     public void load(final String url, final String name, final ImageView iv) {
+        // ten sam obrazek już się wczytuje do tego widoku – nie migaj zastępczą literą
+        if (url != null && url.equals(iv.getTag()) && pending.contains(url)) return;
         iv.setTag(url);
         if (url == null || url.length() == 0 || failed.contains(url)) {
             iv.setImageDrawable(new LetterDrawable(name));

@@ -10,7 +10,6 @@ import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.util.ArrayDeque;
 import java.util.Locale;
@@ -56,7 +55,7 @@ public class StreamPlayer {
     private volatile FrameParser.Format format;
 
     private volatile boolean stopped;
-    private volatile Socket socket;
+    private final StreamSource.Holder holder = new StreamSource.Holder();
     private volatile AudioTrack track;
     private volatile float volume = 1f;
     private volatile boolean everPlayed;
@@ -79,13 +78,17 @@ public class StreamPlayer {
         dec.start();
     }
 
+    /**
+     * Zatrzymanie z dowolnego wątku. Nie dotykamy tu gniazda ani AudioTrack bezpośrednio –
+     * robią to ich własne wątki (patrz StreamSource.Holder). Tylko wyciszamy dźwięk od razu.
+     */
     public void stop() {
         stopped = true;
         synchronized (lock) { lock.notifyAll(); }
-        StreamSource.closeQuietly(socket);
+        holder.abort();
         AudioTrack t = track;
         if (t != null) {
-            try { t.pause(); t.flush(); } catch (Exception ignored) {}
+            try { t.setStereoVolume(0f, 0f); } catch (Throwable ignored) {}
         }
     }
 
@@ -110,9 +113,9 @@ public class StreamPlayer {
         StreamSource.Connection c = null;
         try {
             cb.onConnecting(this);
-            c = StreamSource.open(url);
-            socket = c.socket;
+            c = StreamSource.open(url, holder);
             if (stopped) return;
+            CrashLog.event("stream connected: " + c.contentType + " metaint=" + c.metaInt);
 
             String ct = c.contentType.toLowerCase(Locale.US);
             if (ct.contains("flac") || ct.contains("mpegurl") || ct.startsWith("video")) {
@@ -156,6 +159,10 @@ public class StreamPlayer {
         } catch (InterruptedException ignored) {
         } catch (IOException e) {
             Log.d(TAG, "Sieć: " + e);
+        } catch (Throwable e) {
+            // żaden błąd w wątku sieciowym nie może zamknąć całej aplikacji
+            CrashLog.event("net thread error: " + e);
+            if (!stopped) fail(FAIL_NETWORK);
         } finally {
             if (c != null) StreamSource.closeQuietly(c.socket);
             synchronized (lock) {
@@ -303,8 +310,8 @@ public class StreamPlayer {
                     }
                 }
             }
-        } catch (Exception e) {
-            Log.w(TAG, "Dekodowanie przerwane", e);
+        } catch (Throwable e) {
+            CrashLog.event("decoder error: " + e);
             if (!stopped) fail(everPlayed ? FAIL_NETWORK : FAIL_DECODER);
         } finally {
             track = null;
@@ -314,7 +321,7 @@ public class StreamPlayer {
     }
 
     private static MediaCodec openCodec(FrameParser.Format fmt) throws IOException {
-        Log.i(TAG, "Format " + fmt.label + " " + fmt.sampleRate + " Hz, kanały: " + fmt.channels);
+        CrashLog.event("decoder " + fmt.label + " " + fmt.sampleRate + " Hz, ch=" + fmt.channels);
         MediaFormat mf = MediaFormat.createAudioFormat(fmt.mime, fmt.sampleRate, fmt.channels);
         if (fmt.csd != null) mf.setByteBuffer("csd-0", ByteBuffer.wrap(fmt.csd));
         if (fmt.csd1 != null) mf.setByteBuffer("csd-1", ByteBuffer.wrap(fmt.csd1));
@@ -393,7 +400,7 @@ public class StreamPlayer {
     }
 
     @SuppressWarnings("deprecation")
-    private AudioTrack createTrack(MediaFormat f, FrameParser.Format def) {
+    private AudioTrack createTrack(MediaFormat f, FrameParser.Format def) throws IOException {
         int rate = rateOf(f, def);
         int ch = channelsOf(f, def);
         int mask = ch == 1 ? AudioFormat.CHANNEL_OUT_MONO : AudioFormat.CHANNEL_OUT_STEREO;
@@ -401,7 +408,11 @@ public class StreamPlayer {
         int size = Math.max(min * 2, rate * ch); // ok. pół sekundy
         AudioTrack t = new AudioTrack(AudioManager.STREAM_MUSIC, rate, mask,
                 AudioFormat.ENCODING_PCM_16BIT, size, AudioTrack.MODE_STREAM);
-        float v = volume;
+        if (t.getState() != AudioTrack.STATE_INITIALIZED) {
+            try { t.release(); } catch (Throwable ignored) {}
+            throw new IOException("AudioTrack not initialized (" + rate + " Hz, " + ch + " ch)");
+        }
+        float v = stopped ? 0f : volume;
         t.setStereoVolume(v, v);
         return t;
     }
@@ -420,8 +431,8 @@ public class StreamPlayer {
     }
 
     private static void releaseTrack(AudioTrack t) {
-        try { t.pause(); } catch (Exception ignored) {}
-        try { t.flush(); } catch (Exception ignored) {}
-        try { t.release(); } catch (Exception ignored) {}
+        try { t.pause(); } catch (Throwable ignored) {}
+        try { t.flush(); } catch (Throwable ignored) {}
+        try { t.release(); } catch (Throwable ignored) {}
     }
 }

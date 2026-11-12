@@ -89,7 +89,16 @@ public class Favorites {
 
     public static void saveLast(Context ctx, Station s) {
         ctx.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit()
-                .putString("last", s.toJson().toString()).apply();
+                .putString("last", s.toJson().toString()).putString("last_kind", "station").apply();
+    }
+
+    /** Co było grane ostatnio: „station” albo „episode”. */
+    public static String lastKind(Context ctx) {
+        return ctx.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getString("last_kind", "station");
+    }
+
+    public static void setLastKind(Context ctx, String kind) {
+        ctx.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().putString("last_kind", kind).apply();
     }
 
     public static Station loadLast(Context ctx) {

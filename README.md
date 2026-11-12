@@ -10,7 +10,10 @@ Prosta aplikacja do słuchania radia internetowego, bez reklam, działająca na 
 - przycisk „+” do ręcznego dodania stacji (nazwa + adres strumienia); przytrzymaj własną stację, aby ją edytować lub usunąć,
 - widoczny postęp łączenia i buforowania (licznik sekund, procent, pobrane kB),
 - ustawienia: 15 języków (domyślnie angielski) i czas buforowania w sekundach,
-- granie w tle, z powiadomieniem i przyciskiem „Stop”.
+- podcasty: ranking najpopularniejszych w wybranym kraju (domyślnie Polska), wyszukiwarka, subskrypcje, lista odcinków, pauza, przewijanie (−15 s / +30 s / suwak) i zapamiętywanie miejsca, w którym skończono słuchać,
+- odtwarzacz pełnoekranowy (dotknij paska na dole; strzałka lub przycisk Wstecz wraca do listy),
+- granie w tle, z powiadomieniem; zamknięcie aplikacji z listy ostatnich zatrzymuje dźwięk,
+- raport błędu: jeśli aplikacja się zamknie, przy następnym uruchomieniu pokaże raport do skopiowania.
 
 Katalog stacji pochodzi z darmowego, otwartego serwisu radio-browser.info.
 
@@ -47,4 +50,6 @@ Potrzebny jest komputer – sam tablet nie zbuduje aplikacji. Do wyboru dwie dro
 - Tytuły utworów dla MediaPlayera są odczytywane przez pośrednika (`IcyProxy.java`) z danych ICY wysyłanych przez stacje Icecast/Shoutcast. Nie każda stacja je wysyła. Polskie znaki są obsługiwane także przy starszym kodowaniu Windows-1250.
 - Jeśli stacja nie zagra przez pośrednika, aplikacja próbuje połączyć się bezpośrednio (wtedy bez tytułów).
 - Stacje HLS (`.m3u8`) są odtwarzane bezpośrednio; Android 4.4 obsługuje je tylko częściowo.
+- Podcasty: katalog i ranking z publicznych usług Apple Podcasts (bez klucza i reklam), odcinki bezpośrednio z kanałów RSS twórców. Odtwarzanie przez MediaPlayer i lokalnego pośrednika (`MediaProxy.java`), który obsługuje przewijanie (Range), przekierowania i nowoczesne HTTPS.
+- Połączeń HTTPS nie zamykamy z innego wątku niż ten, który z nich czyta (na Androidzie 4.4 potrafi to wywrócić aplikację) – zamiast tego „odcinamy” połączenie TCP pod spodem (`StreamSource.Holder`).
 - Brak zewnętrznych bibliotek – wyłącznie standardowe API Androida.
