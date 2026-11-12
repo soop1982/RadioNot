@@ -52,4 +52,4 @@ Potrzebny jest komputer – sam tablet nie zbuduje aplikacji. Do wyboru dwie dro
 - Stacje HLS (`.m3u8`) są odtwarzane bezpośrednio; Android 4.4 obsługuje je tylko częściowo.
 - Podcasty: katalog i ranking z publicznych usług Apple Podcasts (bez klucza i reklam), odcinki bezpośrednio z kanałów RSS twórców. Odtwarzanie przez MediaPlayer i lokalnego pośrednika (`MediaProxy.java`), który obsługuje przewijanie (Range), przekierowania i nowoczesne HTTPS.
 - Połączeń HTTPS nie zamykamy z innego wątku niż ten, który z nich czyta (na Androidzie 4.4 potrafi to wywrócić aplikację) – zamiast tego „odcinamy” połączenie TCP pod spodem (`StreamSource.Holder`).
-- Brak zewnętrznych bibliotek – wyłącznie standardowe API Androida.
+- Jedyna zewnętrzna biblioteka to Conscrypt (Google, BoringSSL) – nowoczesne szyfrowanie HTTPS (AES-GCM, ChaCha20, TLS 1.3), którego Android 4.4 nie ma, a którego wymaga wiele serwerów (np. katalog podcastów Apple). Włączana tylko na Androidzie starszym niż 5.0; gdyby się nie załadowała, aplikacja używa szyfrowania systemu.

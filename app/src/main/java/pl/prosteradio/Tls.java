@@ -1,6 +1,7 @@
 package pl.prosteradio;
 
 import android.content.Context;
+import android.os.Build;
 import android.util.Base64;
 import android.util.Log;
 
@@ -12,6 +13,8 @@ import java.lang.reflect.Method;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.security.KeyStore;
+import java.security.Provider;
+import java.security.Security;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
@@ -29,6 +32,8 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 
+import org.conscrypt.Conscrypt;
+
 /**
  * Naprawia HTTPS na Androidzie 4.4:
  *  1. włącza TLS 1.1 / 1.2 (na 4.4 są obsługiwane, ale domyślnie wyłączone),
@@ -42,20 +47,44 @@ public final class Tls {
 
     private Tls() {}
 
+    /** Nazwa użytej biblioteki szyfrującej – trafia do dziennika zdarzeń. */
+    public static String engine = "system";
+
     public static synchronized void init(Context ctx) {
         if (factory != null) return;
         try {
+            // zaufane certyfikaty liczymy jeszcze systemową biblioteką
             X509TrustManager system = trustManagerFor(null);
             X509TrustManager bundled = trustManagerFor(loadBundled(ctx));
             X509TrustManager combined = new CombinedTrustManager(system, bundled);
-            SSLContext sc = SSLContext.getInstance("TLS");
-            sc.init(null, new TrustManager[]{combined}, null);
+            SSLContext sc = null;
+
+            // Android 4.4 nie ma szyfrów AES-GCM / ChaCha20, bez których wiele serwerów
+            // zrywa połączenie („SSL handshake aborted”). Dołączona biblioteka Conscrypt
+            // (BoringSSL) dodaje je wraz z TLS 1.3. Na nowszych Androidach niepotrzebna.
+            if (Build.VERSION.SDK_INT < 21) {
+                try {
+                    Provider p = Conscrypt.newProvider();
+                    Security.insertProviderAt(p, 1);
+                    sc = SSLContext.getInstance("TLS", p);
+                    sc.init(null, new TrustManager[]{combined}, null);
+                    engine = "conscrypt";
+                } catch (Throwable e) {
+                    Log.w(TAG, "Conscrypt niedostępny – zostaje szyfrowanie systemu", e);
+                    sc = null;
+                }
+            }
+            if (sc == null) {
+                sc = SSLContext.getInstance("TLS");
+                sc.init(null, new TrustManager[]{combined}, null);
+            }
             factory = new ModernSocketFactory(sc.getSocketFactory());
             HttpsURLConnection.setDefaultSSLSocketFactory(factory);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             Log.w(TAG, "Nie udało się skonfigurować TLS", e);
             factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
         }
+        CrashLog.event("TLS engine: " + engine);
     }
 
     public static SSLSocketFactory factory() {
@@ -65,10 +94,7 @@ public final class Tls {
     /** Owija zwykłe połączenie TCP w TLS (z SNI i sprawdzeniem nazwy hosta). */
     public static SSLSocket wrap(Socket plain, String host, int port) throws IOException {
         SSLSocket s = (SSLSocket) factory().createSocket(plain, host, port, true);
-        try { // SNI – na starszych Androidach dostępne tylko przez refleksję
-            Method m = s.getClass().getMethod("setHostname", String.class);
-            m.invoke(s, host);
-        } catch (Throwable ignored) {}
+        setSni(s, host);
         s.startHandshake();
         HostnameVerifier hv = HttpsURLConnection.getDefaultHostnameVerifier();
         if (!hv.verify(host, s.getSession())) {
@@ -76,6 +102,23 @@ public final class Tls {
             throw new SSLPeerUnverifiedException("Certyfikat nie pasuje do " + host);
         }
         return s;
+    }
+
+    /** SNI – nazwa serwera w powitaniu TLS (bez niej wiele serwerów odrzuca połączenie). */
+    static void setSni(SSLSocket s, String host) {
+        if (host == null) return;
+        if ("conscrypt".equals(engine)) {
+            try {
+                if (Conscrypt.isConscrypt(s)) {
+                    Conscrypt.setHostname(s, host);
+                    return;
+                }
+            } catch (Throwable ignored) {}
+        }
+        try { // systemowa biblioteka na starszych Androidach – tylko przez refleksję
+            Method m = s.getClass().getMethod("setHostname", String.class);
+            m.invoke(s, host);
+        } catch (Throwable ignored) {}
     }
 
     private static KeyStore loadBundled(Context ctx) throws Exception {
@@ -158,9 +201,12 @@ public final class Tls {
 
         ModernSocketFactory(SSLSocketFactory d) { this.d = d; }
 
-        private Socket tune(Socket s) {
+        private Socket tune(Socket s, String host) {
             if (s instanceof SSLSocket) {
                 SSLSocket ss = (SSLSocket) s;
+                setSni(ss, host);
+                // Conscrypt ma rozsądne, nowoczesne ustawienia domyślne – nie ruszamy ich
+                if ("conscrypt".equals(engine)) return s;
                 List<String> protos = new ArrayList<>();
                 for (String p : ss.getSupportedProtocols()) {
                     if (p.equals("TLSv1.3") || p.equals("TLSv1.2") || p.equals("TLSv1.1") || p.equals("TLSv1")) {
@@ -171,7 +217,7 @@ public final class Tls {
                 List<String> ciphers = new ArrayList<>();
                 for (String c : ss.getSupportedCipherSuites()) {
                     String u = c.toUpperCase();
-                    if (u.contains("NULL") || u.contains("ANON") || u.contains("EXPORT")
+                    if (u.contains("NULL") || u.contains("ANON") || u.contains("EXPORT") || u.contains("FALLBACK_SCSV")
                             || u.contains("_DES_") || u.contains("RC4") || u.contains("MD5")) continue;
                     ciphers.add(c);
                 }
@@ -184,19 +230,19 @@ public final class Tls {
         @Override public String[] getSupportedCipherSuites() { return d.getSupportedCipherSuites(); }
 
         @Override public Socket createSocket(Socket s, String host, int port, boolean autoClose) throws IOException {
-            return tune(d.createSocket(s, host, port, autoClose));
+            return tune(d.createSocket(s, host, port, autoClose), host);
         }
         @Override public Socket createSocket(String host, int port) throws IOException {
-            return tune(d.createSocket(host, port));
+            return tune(d.createSocket(host, port), host);
         }
         @Override public Socket createSocket(String host, int port, InetAddress localHost, int localPort) throws IOException {
-            return tune(d.createSocket(host, port, localHost, localPort));
+            return tune(d.createSocket(host, port, localHost, localPort), host);
         }
         @Override public Socket createSocket(InetAddress host, int port) throws IOException {
-            return tune(d.createSocket(host, port));
+            return tune(d.createSocket(host, port), null);
         }
         @Override public Socket createSocket(InetAddress address, int port, InetAddress localAddress, int localPort) throws IOException {
-            return tune(d.createSocket(address, port, localAddress, localPort));
+            return tune(d.createSocket(address, port, localAddress, localPort), null);
         }
     }
 }
